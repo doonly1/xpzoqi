@@ -1,18 +1,15 @@
 
 import os,time
+from docx import *
 from docx.shared import *
-from docx import Document
 
 from mystyle import para_fm,run_fm
 from float_picture import *
 
-current_dir = os.path.abspath('./')
-os.chdir(current_dir)
-
 
 def add_seal(current_dir):
     #3署名及日期设置
-    for file in os.listdir(current_dir):        #对digitfiles添加图片
+    for file in os.listdir(current_dir):        #对digitfiles添加
         if file.endswith('.docx') and file[:4].isdigit():
             print('正在添加印章：',file)
             doc=Document(file)
@@ -28,7 +25,6 @@ def add_seal(current_dir):
                     try:
                         picture_name = current_dir + '/config/' + sign_para_text + '.png'
                         n=len(para_text)
-                        print(n)
                         if n == 9:
                             x0=(21-2.6)*28.35-64-7*16/2       #x0是日期的中心坐标
                         elif n ==10:
@@ -39,7 +35,7 @@ def add_seal(current_dir):
                             print("日期有错误")
                         y0 = 28.95*10.5+3.7*28.35
                         x1 = x0-5.7/2*28.35 ; y1 = y0-5.24/2*28.35   #x0是图片中心坐标
-                        add_float_picture(para.runs[-1], picture_name , pos_x=Pt(x1), pos_y=Pt(y1-40))  ## 测试插入浮动图片2022.1.9
+                        add_float_picture(para, picture_name , pos_x=Pt(x1), pos_y=Pt(y1-40))  ## 测试插入浮动图片2022.1.9
                         print('印章添加成功。')
                     except:
                         print('Seal不存在：',picture_name)
@@ -56,7 +52,6 @@ def add_seal(current_dir):
             
             para = paras[0].insert_paragraph_before()   #插入空行
             para._p.get_or_add_pPr().insert(0,parse_xml('<w:snapToGrid {}  w:val="0"/>'.format(nsdecls('w')))) #取消设置对齐到网格
-            para.style=doc.styles['Norm']
             para_fm(para,0,0,28.95,0,0,0,'C')
             
             #插入文号
@@ -74,14 +69,11 @@ def add_seal(current_dir):
             para = paras[0].insert_paragraph_before()
             para._p.get_or_add_pPr().insert(0,parse_xml('<w:snapToGrid {}  w:val="0"/>'.format(nsdecls('w')))) #取消设置对齐到网格
             para_fm(para,0,0,28.95,0,0,0,'C')
-            run = para.add_run()
-            try:
-                line_name = current_dir + '/config/' + '红色分割线.png'
-                run_fm(run,'仿宋',16)
-                
-                add_float_picture(run, line_name , pos_x=Pt(2.8*28.35), pos_y=Pt(10*28.35))
-            except:
-                print('未添加红色分割线')
+            
+            line_name = current_dir + '/config/' + '红色分割线.png'
+            run_fm(run,'仿宋',16)
+            add_float_picture(para, line_name , pos_x=Pt(2.8*28.35), pos_y=Pt(10*28.35))
+            
 
 
             #文档保存docx
@@ -102,14 +94,9 @@ def add_seal(current_dir):
 
             
 def get_fawenzihao(sign_text):
-    f=open('./config/发文字号.txt','r',encoding='utf-8')
-    lines=f.readlines()
-    f.close()
-    lines2=''
-    for line in lines:
-        line=line.strip('\n')
-        lines2=lines2+line
-    lines=eval(lines2)
+    import json
+    with open('./config/发文字号.json','r',encoding='utf-8') as f:
+        lines=json.load(f)
     
     try:
         daizi=lines[sign_text]['代字']
@@ -119,5 +106,11 @@ def get_fawenzihao(sign_text):
     wenhao=1
     year=time.strftime("%Y",time.localtime())
     fawenzihao = daizi +'〔'+ year + '〕'+ str(wenhao) + '号'
-    return fawenzihao
+    return fawenzihao,wenhao
+
+if __name__ == "__main__":
+    current_dir = os.path.abspath('./')
+    os.chdir(current_dir)
+    add_seal(current_dir)
+
      

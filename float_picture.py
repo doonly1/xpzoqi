@@ -98,8 +98,8 @@ def add_float_picture(p, image_path_or_stream, width=None, height=None, pos_x=0,
     """Add float picture at fixed position `pos_x` and `pos_y` to the top-left point of page.
     """
     run = p.add_run()
+    register_element_cls('wp:anchor', CT_Anchor)
     anchor = new_pic_anchor(run.part, image_path_or_stream, width, height, pos_x, pos_y)
     run._r.add_drawing(anchor)
 
     # refer to docx.oxml.shape.__init__.py
-    register_element_cls('wp:anchor', CT_Anchor)

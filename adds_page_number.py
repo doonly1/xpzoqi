@@ -8,8 +8,6 @@ from win32com import client
 from win32com.client import constants
 
 
-current_dir = os.path.abspath('./')
-os.chdir(current_dir)
 
 
 def doc_to_docx(current_dir):
@@ -62,7 +60,9 @@ def adds_page_number():
 
 
 
-if __name__ == '__main__':  
-    doc_to_docx()
+if __name__ == '__main__':
+    current_dir = os.path.abspath('./')
+    os.chdir(current_dir)
+    doc_to_docx(current_dir)
     adds_page_number()
     os.system('pause')

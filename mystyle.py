@@ -1,6 +1,8 @@
 from docx import *
 from docx.shared import *
 from docx.enum.style import *
+from docx.enum.text import *
+
 import itertools
 
 
@@ -115,7 +117,7 @@ def style_attr(style,priority):
     style.priority = priority
     style.locked = False
 
-def para_fm(para_name,spc_bef,spc_af,line_spc,left_ind,right_ind,first_l_ind,alignment):
+def para_fm(para_name,spc_bef,spc_af,line_spc,left_ind,right_ind,first_l_ind,align):
     try :
         para_f=para_name.paragraph_format
     except :
@@ -129,11 +131,11 @@ def para_fm(para_name,spc_bef,spc_af,line_spc,left_ind,right_ind,first_l_ind,ali
     para_f.left_indent = Pt(left_ind)   #左缩进
     para_f.right_indent = Pt(right_ind)	  #右缩进
     para_f.first_line_indent = Pt(first_l_ind)  #首行缩进，负值表示悬挂
-    align_dic={'L':'WD_ALIGN_PARAGRAPH.LEFT',\
-               'R':'WD_ALIGN_PARAGRAPH.RIGHT',\
-               'C':'WD_ALIGN_PARAGRAPH.CENTER',\
-               'J':'WD_ALIGN_PARAGRAPH.JUSTIFY'}
-    para_f.alignment=eval(align_dic[alignment])
+    align_dic={'L':'WD_PARAGRAPH_ALIGNMENT.LEFT',\
+               'R':'WD_PARAGRAPH_ALIGNMENT.RIGHT',\
+               'C':'WD_PARAGRAPH_ALIGNMENT.CENTER',\
+               'J':'WD_PARAGRAPH_ALIGNMENT.JUSTIFY'}
+    para_f.alignment = eval(align_dic[align])
     para_f.widow_control=False
     para_f.keep_with_next=False
     para_f.page_break_before=False
