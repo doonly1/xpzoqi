@@ -1,10 +1,12 @@
 
 import os,time
-from docx import *
+from docx import Document
 from docx.shared import *
 
 from mystyle import para_fm,run_fm
 from float_picture import *
+
+
 
 
 def add_seal(current_dir):
@@ -14,7 +16,7 @@ def add_seal(current_dir):
             print('正在添加印章：',file)
             doc=Document(file)
             paras=doc.paragraphs
-            sign_para_text='未找到机关名'
+            sign_para_text='未找到署名'
             for para in paras:
                 para_text=para.text.replace(' ','')
                 if '年' in para_text and '月' in para_text\
@@ -45,7 +47,7 @@ def add_seal(current_dir):
             para = paras[0].insert_paragraph_before()   #最前段插入发文机关
             para._p.get_or_add_pPr().insert(0,parse_xml('<w:snapToGrid {}  w:val="0"/>'.format(nsdecls('w')))) #取消设置对齐到网格
             run=para.add_run()
-            print('机关名：',sign_para_text)
+            print('署名：',sign_para_text)
             run = para.add_run(sign_para_text+'文件')
             run_fm(run,'方正小标宋简体',72,255,0,0)
             para_fm(para,0,0,1,0,0,0,'C')
@@ -90,7 +92,7 @@ def add_seal(current_dir):
             doc.Paragraphs(1).Range.Font.Scaling = ssss
             doc.Save()
             doc.Close()
-            print('文档已保存：',os.path.abspath('..')+'\\'+file,'\n')
+            print('文档已保存：',current_dir+'\\'+file,'\n')
 
             
 def get_fawenzihao(sign_text):

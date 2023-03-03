@@ -1,8 +1,7 @@
 import os
-from docx import *
+from docx import Document
 from xpzoqi import save_docx
-from mystyle import my_number_style
-from mypage import set_page
+from mystyle import my_number_style,set_page
 
 from win32com import client
 from win32com.client import constants

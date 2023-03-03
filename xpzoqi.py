@@ -1,12 +1,9 @@
 
 
-from mystyle import *
-from mypage import set_page
-from docx.enum.text import *
-from PySide2.QtWidgets import QApplication, QMainWindow, QPushButton,  QPlainTextEdit,QMessageBox
+from PySide2.QtWidgets import QApplication, QMainWindow, QPushButton,QPlainTextEdit,QMessageBox
 import os
 
-current_dir = os.path.abspath('./')
+from mystyle import *
 
 
 
@@ -172,6 +169,8 @@ def gennerate_docx():
 
 
 if __name__ == '__main__':
+    current_dir = os.path.abspath('./')
+
     app = QApplication([])
 
     window = QMainWindow()

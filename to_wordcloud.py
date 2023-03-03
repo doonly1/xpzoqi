@@ -1,5 +1,5 @@
 
-from docx import *
+from docx import Document
 from adds_page_number import doc_to_docx
 import os,jieba
 from wordcloud import WordCloud
