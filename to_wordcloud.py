@@ -4,16 +4,17 @@ from adds_page_number import doc_to_docx
 import os,jieba
 from wordcloud import WordCloud
 
+BASEDIR = os.path.dirname(__file__)
 
-def show_wordcloud():
-    current_dir = os.path.abspath('./')
-    os.chdir(current_dir)
+
+def show_wordcloud(BASEDIR):
+    os.chdir(BASEDIR)
     try:
-        doc_to_docx(current_dir)
+        doc_to_docx(BASEDIR)
     except:
         pass
 
-    for file in os.listdir(current_dir):
+    for file in os.listdir(BASEDIR):
         if file.endswith('.docx') and not file.startswith("~$"):
             print('正在生成词云：',file)
             doc=Document(file)

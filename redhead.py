@@ -6,12 +6,13 @@ from docx.shared import *
 from mystyle import para_fm,run_fm
 from float_picture import *
 
+BASEDIR = os.path.dirname(__file__)
 
 
 
-def add_seal(current_dir):
+def add_seal(BASEDIR):
     #3署名及日期设置
-    for file in os.listdir(current_dir):        #对digitfiles添加
+    for file in os.listdir(BASEDIR):        #对digitfiles添加
         if file.endswith('.docx') and file[:4].isdigit():
             print('正在添加印章：',file)
             doc=Document(file)
@@ -25,7 +26,7 @@ def add_seal(current_dir):
                     print('第{}段有署名：{}'.format(paras.index(para),sign_para.text))
                     sign_para_text=sign_para.text.replace(' ','')
                     try:
-                        picture_name = current_dir + '/config/' + sign_para_text + '.png'
+                        picture_name = BASEDIR + '/config/' + sign_para_text + '.png'
                         n=len(para_text)
                         if n == 9:
                             x0=(21-2.6)*28.35-64-7*16/2       #x0是日期的中心坐标
@@ -72,7 +73,7 @@ def add_seal(current_dir):
             para._p.get_or_add_pPr().insert(0,parse_xml('<w:snapToGrid {}  w:val="0"/>'.format(nsdecls('w')))) #取消设置对齐到网格
             para_fm(para,0,0,28.95,0,0,0,'C')
             
-            line_name = current_dir + '/config/' + '红色分割线.png'
+            line_name = BASEDIR + '/config/' + '红色分割线.png'
             run_fm(run,'仿宋',16)
             add_float_picture(para, line_name , pos_x=Pt(2.8*28.35), pos_y=Pt(10*28.35))
             
@@ -88,11 +89,11 @@ def add_seal(current_dir):
             import win32com.client as win32
             word = win32.gencache.EnsureDispatch('Word.Application') 
             word.Visible = 0
-            doc = word.Documents.Open(current_dir+'/'+file)    #打开新的文档
+            doc = word.Documents.Open(BASEDIR+'/'+file)    #打开新的文档
             doc.Paragraphs(1).Range.Font.Scaling = ssss
             doc.Save()
             doc.Close()
-            print('文档已保存：',current_dir+'\\'+file,'\n')
+            print('文档已保存：',BASEDIR+'\\'+file,'\n')
 
             
 def get_fawenzihao(sign_text):
@@ -111,8 +112,6 @@ def get_fawenzihao(sign_text):
     return fawenzihao,wenhao
 
 if __name__ == "__main__":
-    current_dir = os.path.abspath('./')
-    os.chdir(current_dir)
-    add_seal(current_dir)
+    add_seal(BASEDIR)
 
      

@@ -4,7 +4,9 @@ from PySide2.QtWidgets import QApplication, QMainWindow, QPushButton,QPlainTextE
 import os
 
 from mystyle import *
+from adds_page_number import *
 
+BASEDIR = os.path.dirname(__file__)
 
 
 def save_docx(doc,doc_name):
@@ -163,13 +165,13 @@ def gennerate_docx():
     set_appendix(doc)
     set_date(doc)   
     save_docx(doc,f"{text[:5]}.docx")
+    adds_page_number(BASEDIR)
 
-    QMessageBox.about(window,'已生成',f'路径：\n{text[:5]}')
+    QMessageBox.about(window,'已生成',f'路径：BASEDIR+{text[:5]}')
 
 
 
 if __name__ == '__main__':
-    current_dir = os.path.abspath('./')
 
     app = QApplication([])
 
@@ -193,7 +195,7 @@ if __name__ == '__main__':
 
     button3 = QPushButton('打开生成目录', window)
     button3.move(380,160)
-    button3.clicked.connect(os.open(current_dir,os.O_RDWR))
+    button3.clicked.connect(os.open(BASEDIR,os.O_RDWR))
 
     window.show()
     app.exec_()
