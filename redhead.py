@@ -1,13 +1,9 @@
-
 import os,time
 from docx import Document
-from docx.shared import *
+from docx.shared import Pt
 
 from mystyle import para_fm,run_fm
 from float_picture import *
-
-BASEDIR = os.path.dirname(__file__)
-
 
 
 def add_seal(BASEDIR):
@@ -94,7 +90,6 @@ def add_seal(BASEDIR):
             doc.Save()
             doc.Close()
             print('文档已保存：',BASEDIR+'\\'+file,'\n')
-
             
 def get_fawenzihao(sign_text):
     import json
@@ -111,7 +106,9 @@ def get_fawenzihao(sign_text):
     fawenzihao = daizi +'〔'+ year + '〕'+ str(wenhao) + '号'
     return fawenzihao,wenhao
 
+
 if __name__ == "__main__":
+    BASEDIR = os.path.dirname(__file__)
     add_seal(BASEDIR)
 
      

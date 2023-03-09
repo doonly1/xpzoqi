@@ -1,13 +1,10 @@
-import os
+import os,time
 from docx import Document
-from xpzoqi import save_docx
+
 from mystyle import my_number_style,set_page
 
 from win32com import client
 from win32com.client import constants
-
-BASEDIR = os.path.dirname(__file__)
-
 
 
 def doc_to_docx(BASEDIR):
@@ -58,8 +55,13 @@ def adds_page_number(BASEDIR):
             set_page_number(BASEDIR+'/'+file)   #激活页码样式，启用关闭又一次
             print('添加成功。\n')
 
+def save_docx(doc,doc_name):
+    lctime=time.localtime()
+    num=time.strftime("%M%S",lctime)                           
+    doc.save(num+doc_name)  #保存
 
 
 if __name__ == '__main__':
+    BASEDIR = os.path.dirname(__file__)
     adds_page_number(BASEDIR)
 

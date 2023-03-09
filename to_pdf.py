@@ -1,12 +1,9 @@
 import os
 from win32com import client
-from adds_page_number import doc_to_docx
+from adds_number import doc_to_docx
 
 
-BASEDIR = os.path.dirname(__file__)
-
-
-def convert_to_pdf(BASEDIR):        
+def convert_to_pdf(BASEDIR):
     try:
         doc_to_docx(BASEDIR)
     except:
@@ -20,6 +17,8 @@ def convert_to_pdf(BASEDIR):
             doc.Close()
     word.Quit()
     print('全部转化成功')
-    
+
+   
 if __name__ == '__main__':
+    BASEDIR = os.path.dirname(__file__)
     convert_to_pdf(BASEDIR)

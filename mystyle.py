@@ -1,9 +1,9 @@
-from docx import *
-from docx.shared import *
-from docx.enum.style import *
-from docx.enum.text import *
+from docx.shared import Cm,Pt,RGBColor
+from docx.enum.style import WD_STYLE_TYPE
+from docx.enum.text import WD_PARAGRAPH_ALIGNMENT
 
 import itertools
+
 
 def set_page(doc):
     #设置页面

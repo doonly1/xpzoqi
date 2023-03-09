@@ -1,16 +1,16 @@
 
-
 from PySide2.QtWidgets import QApplication, QMainWindow, QPushButton,QPlainTextEdit,QMessageBox
-import os
+from docx import Document
+from docx.shared import Pt
+from docx.enum.text import WD_PARAGRAPH_ALIGNMENT
+import os,time
 
-from mystyle import *
-from adds_page_number import *
-
-BASEDIR = os.path.dirname(__file__)
+from mystyle import para_fm,run_fm,add_my_styles,clear_styles,my_number_style,set_page
+from adds_number import adds_page_number
+from redhead import add_seal
 
 
 def save_docx(doc,doc_name):
-    import time
     lctime=time.localtime()
     num=time.strftime("%M%S",lctime)                           
     doc.save(num+doc_name)  #保存
@@ -160,19 +160,20 @@ def gennerate_docx():
     text = textEdit.toPlainText()
     for line in text.splitlines():
         doc.add_paragraph(line)
-
+    fileName = text.splitlines()[0]
     set_headings(doc)
     set_appendix(doc)
     set_date(doc)   
-    save_docx(doc,f"{text[:5]}.docx")
-    adds_page_number(BASEDIR)
+    save_docx(doc,f"{fileName}.docx")
 
-    QMessageBox.about(window,'已生成',f'路径：BASEDIR+{text[:5]}')
+    QMessageBox.about(window,'已生成',f'路径：{BASEDIR}')
 
+def openDir():
+    os.system("start explorer {BASEDIR}")
 
 
 if __name__ == '__main__':
-
+    BASEDIR = os.path.dirname(__file__)
     app = QApplication([])
 
     window = QMainWindow()
@@ -191,11 +192,11 @@ if __name__ == '__main__':
 
     button2 = QPushButton('生成红头文件', window)
     button2.move(380,120)
-    button2.clicked.connect(gennerate_docx)
+    button2.clicked.connect(add_seal)
 
     button3 = QPushButton('打开生成目录', window)
     button3.move(380,160)
-    button3.clicked.connect(os.open(BASEDIR,os.O_RDWR))
+    button3.clicked.connect(openDir)
 
     window.show()
     app.exec_()

@@ -1,10 +1,8 @@
-
 from docx import Document
-from adds_page_number import doc_to_docx
-import os,jieba
 from wordcloud import WordCloud
+import os,jieba
 
-BASEDIR = os.path.dirname(__file__)
+from adds_number import doc_to_docx
 
 
 def show_wordcloud(BASEDIR):
@@ -31,5 +29,5 @@ def show_wordcloud(BASEDIR):
             print('词云成功：',file[:-4]+'png')
 
 if __name__ == '__main__':
-    show_wordcloud()
-    os.system('pause')
+    BASEDIR = os.path.dirname(__file__)
+    show_wordcloud(BASEDIR)
